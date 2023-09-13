@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "981742112540",
+    "project_id": "semcodar-tutorial-flutte-3eedc",
+    "storage_bucket": "semcodar-tutorial-flutte-3eedc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981742112540:android:eece576c590816555574d9",
+        "android_client_info": {
+          "package_name": "com.semcodar.tutorialffyt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhSS5Fgcb3RvrAgyPPe7KtbO39P30EBpM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
