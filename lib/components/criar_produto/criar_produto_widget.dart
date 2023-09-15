@@ -1,7 +1,10 @@
+import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +33,7 @@ class _CriarProdutoWidgetState extends State<CriarProdutoWidget> {
     _model = createModel(context, () => CriarProdutoModel());
 
     _model.textController ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -198,8 +202,14 @@ class _CriarProdutoWidgetState extends State<CriarProdutoWidget> {
                         ),
                       ),
                       FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
+                        onPressed: () async {
+                          await ProdutosRecord.collection
+                              .doc()
+                              .set(createProdutosRecordData(
+                                produto: _model.textController.text,
+                                comprado: false,
+                              ));
+                          Navigator.pop(context);
                         },
                         text: 'Criar produto',
                         options: FFButtonOptions(

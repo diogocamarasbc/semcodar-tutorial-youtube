@@ -1,7 +1,7 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/pages/cadastro/cadastro_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,6 +28,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
     _model.emailController ??= TextEditingController();
     _model.senhaController ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -282,8 +283,21 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 ),
                               ),
                               FFButtonWidget(
-                                onPressed: () {
-                                  print('Button pressed ...');
+                                onPressed: () async {
+                                  GoRouter.of(context).prepareAuthEvent();
+
+                                  final user =
+                                      await authManager.signInWithEmail(
+                                    context,
+                                    _model.emailController.text,
+                                    _model.senhaController.text,
+                                  );
+                                  if (user == null) {
+                                    return;
+                                  }
+
+                                  context.goNamedAuth(
+                                      'produtos', context.mounted);
                                 },
                                 text: 'Entrar',
                                 icon: FaIcon(
@@ -337,17 +351,17 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            duration:
-                                                Duration(milliseconds: 150),
-                                            reverseDuration:
-                                                Duration(milliseconds: 150),
-                                            child: CadastroWidget(),
-                                          ),
-                                          (r) => false,
+                                        context.goNamed(
+                                          'cadastro',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 150),
+                                            ),
+                                          },
                                         );
                                       },
                                       text: 'Cadastrar',

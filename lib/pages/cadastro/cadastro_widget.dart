@@ -2,8 +2,6 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/pages/login/login_widget.dart';
-import '/pages/produtos/produtos_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +28,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
     _model.emailController ??= TextEditingController();
     _model.senhaController ??= TextEditingController();
     _model.senhaConfirmarController ??= TextEditingController();
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -389,6 +388,7 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                               ),
                               FFButtonWidget(
                                 onPressed: () async {
+                                  GoRouter.of(context).prepareAuthEvent();
                                   if (_model.senhaController.text !=
                                       _model.senhaConfirmarController.text) {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -411,13 +411,8 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                     return;
                                   }
 
-                                  Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProdutosWidget(),
-                                    ),
-                                    (r) => false,
-                                  );
+                                  context.goNamedAuth(
+                                      'produtos', context.mounted);
                                 },
                                 text: 'Criar Conta',
                                 options: FFButtonOptions(
@@ -468,17 +463,17 @@ class _CadastroWidgetState extends State<CadastroWidget> {
                                     ),
                                     FFButtonWidget(
                                       onPressed: () async {
-                                        Navigator.pushAndRemoveUntil(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.fade,
-                                            duration:
-                                                Duration(milliseconds: 150),
-                                            reverseDuration:
-                                                Duration(milliseconds: 150),
-                                            child: LoginWidget(),
-                                          ),
-                                          (r) => false,
+                                        context.goNamed(
+                                          'login',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                              duration:
+                                                  Duration(milliseconds: 150),
+                                            ),
+                                          },
                                         );
                                       },
                                       text: 'Login',
